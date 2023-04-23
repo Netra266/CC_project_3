@@ -1,17 +1,27 @@
 const express = require("express");
 const app = express();
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const cors = require("cors");
+//require('dotenv').config()
 
 app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-    user: "root",
-    host: "localhost",
-    password: "netra",
-    database: "employeeData",
+    host: 'first-instance.caltzcyecjeb.us-east-1.rds.amazonaws.com',
+    user: 'root',
+    password: 'artenrds',
+    database: 'employeedata'
 });
+
+db.connect((err) => {
+    if (err) {
+        console.error('Error connecting to database:', err);
+        return;
+    }
+    console.log('Connected to database.');
+});
+
 
 app.post("/create", (req, res) => {
     const name = req.body.name;
